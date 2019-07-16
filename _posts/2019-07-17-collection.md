@@ -14,6 +14,9 @@ twitter-timeline:
 ---
 
 
+**Example FrontMater**
+
+
 ```MarkDown
 ---
 twitter-timeline:
@@ -28,6 +31,9 @@ twitter-timeline:
 ```
 
 
+**Example HTML**
+
+
 ```HTML
 <a class="twitter-timeline"
    href="https://twitter.com/TwitterDev/timelines/539487832448843776"
@@ -39,4 +45,7 @@ twitter-timeline:
 ```
 
 
-___
+**Example output**
+
+
+> Note, the following is **not** associated with this site and is referred to only to remain consistent with official Twitter API documentation
