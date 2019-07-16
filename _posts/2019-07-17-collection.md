@@ -14,7 +14,7 @@ twitter-timeline:
 ---
 
 
-**Example FrontMater**
+**Example FrontMatter**
 
 
 ```MarkDown
