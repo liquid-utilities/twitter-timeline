@@ -1,0 +1,139 @@
+{% capture workspace__twitter_timeline %}
+  {% comment %}<script>
+    /**
+     * Embeds Twitter Timelines via Liquid includes
+     * @author S0AndS0
+     * @copyright AGPL-3.0
+     * @returns {html}
+     * @param {string} twitter_name|page.twitter.name|site[site.theme].social_links.twitter - Account name
+     * @param {string} twitter_type|page.twitter.type - Type of timeline to embed, may be `nil`, `collection`, `like`, or `list`
+     * @param {string} twitter_collection|page.twitter.collection - ID of collection if `twitter_type` is also `collection`
+     * @param {boolean} twitter_show_replies|page.twitter.show_replies - default `false`
+     * @param {string} twitter_chrome|page.twitter.chrome - Space separated list of options `noheader`, `nofooter`, `noborders`, `transparent`, `noscrollbar`
+     * @param {string} twitter_theme|page.twitter.theme - Default `light`, alternate `dark`
+     * @param {number} twitter_width|page.twitter.width - Default `auto`
+     * @param {number} twitter_height|page.twitter.height - Default `600`
+     * @param {number} twitter_tweet_limit|page.twitter.tweet_limit - `1` to `20` default _`undefined`_
+     * @param {hex} twitter_link_color|page.twitter.link_color - Default `#2b7bb9`
+     * @param {hex} twitter_border_color|page.twitter.border_color - Default varies by theme
+     * @param {string} twitter_aria_polite|page.twitter.aria_polite - `assertive` or `polite` default `polite`
+     * @param {boolean} twitter_dnt|page.twitter.dnt - default `true`
+     * @param {string} twitter_text|page.twitter.text - Default varies by `twitter_type`
+     * @param {boolean} inject_js|page.twitter.inject_js - default `false`
+     *
+     * @example <caption>FrontMatter</caption>
+     *   ---
+     *   twitter-timeline:
+     *     name: TwitterDev
+     *     width: 300
+     *     height: 300
+     *     chrome: nofooter noscrollbar noborders transparent
+     *     tweet_limit: 3
+     *     inject_js: true
+     *   ---
+     *
+     *   // Outputs something like...
+     *
+     *   &lt;a class="twitter-timeline"
+     *      href="https://twitter.com/TwitterDev"
+     *      data-width="300"
+     *      data-height="300"
+     *      data-chrome="nofooter noscrollbar noborders transparent"
+     *      data-tweet-limit="3"&gt;Tweets by @TwitterDev&lt;/a&gt;
+     *   &lt;script&gt;async src="https://platform.twitter.com/widgets.js"&lt;/script&gt;
+     */
+  </script>{% endcomment %}
+
+
+  {% assign twitter_name = include.twitter_name | default: page.twitter-timeline.name | default: site[site.theme].social_links.twitter %}
+  {% assign twitter_type = include.twitter_type | default: page.twitter-timeline.type | default: nil %}
+  {% assign twitter_collection = include.twitter_collection | default: page.twitter-timeline.collection | default: nil %}
+  {% assign twitter_list = include.twitter_list | default: page.twitter-timeline.list | default: nil %}
+
+
+  {% assign twitter_href = 'https://twitter.com/' | append: twitter_name %}
+  {% if twitter_type == 'collection' and twitter_collection %}
+    {% assign twitter_href = twitter_href | append: '/timelines/' | append: twitter_collection %}
+  {% elsif (twitter_type == 'list' or twitter_type == 'lists') and twitter_list %}
+    {% assign twitter_list = twitter_list | slugify %}
+    {% assign twitter_href = twitter_href | append: '/lists/' | append: twitter_list %}
+  {% elsif twitter_type == 'like' or twitter_type == 'likes' %}
+    {% assign twitter_href = twitter_href | append: '/likes' %}
+  {% endif %}
+
+
+  {% assign twitter_show_replies = include.twitter_show_replies | default: page.twitter-timeline.show_replies | default: false %}
+  {% assign twitter_chrome = include.twitter_chrome | default: page.twitter-timeline.chrome | default: nil %}
+  {% assign twitter_theme = include.twitter_theme | default: page.twitter-timeline.theme | default: 'light' %}
+  {% assign twitter_width = include.twitter_width | default: page.twitter-timeline.width | default: 'auto' %}
+  {% assign twitter_height = include.twitter_height | default: page.twitter-timeline.height | default: '600' %}
+  {% assign twitter_tweet_limit = include.twitter_tweet_limit | default: page.twitter-timeline.tweet_limit | default: nil %}
+  {% assign twitter_link_color = include.twitter_link_color | default: page.twitter-timeline.link_color | default: '#2b7bb9' %}
+  {% assign twitter_border_color = include.twitter_border_color | default: page.twitter-timeline.border_color | default: nil %}
+  {% assign twitter_aria_polite = include.twitter_aria_polite | default: page.twitter-timeline.aria_polite | default: 'polite' %}
+  {% assign twitter_dnt = include.twitter_dnt | default: page.twitter-timeline.dnt %}
+  {% unless twitter_dnt == false or twitter_dnt == 'false' %}
+    {% assign twitter_dnt = true %}
+  {% endunless %}
+
+
+  {% capture twitter_attributes %}
+    class="twitter-timeline"
+    href="{{ twitter_href }}"
+    data-show-replies="{{ twitter_show_replies }}"
+    data-aria-polite="{{ twitter_aria_polite }}"
+    data-dnt="{{ twitter_dnt }}"
+  {% endcapture %}
+  {% if twitter_chrome %}
+    {% capture twitter_attributes %}{{ twitter_attributes }} data-chrome="{{ twitter_chrome }}"{% endcapture %}
+  {% endif %}
+  {% if twitter_theme %}
+    {% capture twitter_attributes %}{{ twitter_attributes }} data-theme="{{ twitter_theme }}"{% endcapture %}
+  {% endif %}
+  {% if twitter_width %}
+    {% capture twitter_attributes %}{{ twitter_attributes }} data-width="{{ twitter_width }}"{% endcapture %}
+  {% endif %}
+  {% if twitter_height %}
+    {% capture twitter_attributes %}{{ twitter_attributes }} data-height="{{ twitter_height }}"{% endcapture %}
+  {% endif %}
+  {% if twitter_tweet_limit %}
+    {% capture twitter_attributes %}{{ twitter_attributes }} data-tweet-limit="{{ twitter_tweet_limit }}"{% endcapture %}
+  {% endif %}
+  {% if twitter_link_color %}
+    {% capture twitter_attributes %}{{ twitter_attributes }} data-link-color="{{ twitter_link_color }}"{% endcapture %}
+  {% endif %}
+  {% if twitter_border_color %}
+    {% capture twitter_attributes %}{{ twitter_attributes }} data-border-color="{{ twitter_border_color }}"{% endcapture %}
+  {% endif %}
+
+
+  {% assign twitter_text = include.twitter_text | default: page.twitter-timeline.text | default: nil %}
+  {% unless twitter_text %}
+    {% if twitter_type == 'collection' and twitter_collection %}
+      {% assign twitter_text = 'Tweets curation ID ' | append: twitter_collection %}
+    {% elsif (twitter_type == 'list' or twitter_type == 'lists') and twitter_list %}
+      {% assign twitter_text = 'Tweets from https://twitter.com/' | append: twitter_name | append: '/' | append: twitter_list %}
+    {% elsif twitter_type == 'like' or twitter_type == 'likes' %}
+      {% assign twitter_text = 'Tweets liked by @' | append: twitter_name %}
+    {% else %}
+      {% assign twitter_text = 'Tweets by @' | append: twitter_name %}
+    {% endif %}
+  {% endunless %}
+
+
+  {% if twitter_name %}
+
+    {% capture workspace__twitter_timeline__output %}
+      <a {{ twitter_attributes | strip_newlines }}>{{ twitter_text | markdownify }}</a>
+    {% endcapture %}
+
+
+    {% assign inject_js = include.inject_js | default: page.twitter-timeline.inject_js | default: false %}
+    {% if inject_js == true or inject_js == 'true' %}
+      {% capture workspace__twitter_timeline__output %}{{ workspace__twitter_timeline__output }}
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      {% endcapture %}
+    {% endif %}
+
+  {% endif %}
+{% endcapture %}{% if workspace__twitter_timeline__output %}{{ workspace__twitter_timeline__output | strip }}{% endif %}{% assign workspace__twitter_timeline = nil %}{% assign workspace__twitter_timeline__output = nil %}
