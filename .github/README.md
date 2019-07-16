@@ -178,7 +178,7 @@ ___
   "&#x1F5D2; Additional notes and links that may be worth clicking in the future"
 
 
-Including code from this repository within MarkDown will result in mangled output, because filters that _`content`_ is pushed through by default. Instead include within `HTML` files from the `_layouts` directory and caution should be used when including within another `_includes` file.
+Including code from this repository within MarkDown will result in mangled output, because filters that _`content`_ is pushed through by default. Instead include within `HTML` files from the `_layouts` directory and caution should be used when including within another `_includes` file. Checking if things work locally is _tricky_, often it is easier to push to a public fork and modify rendered source via browser debugger.
 
 
 ___
