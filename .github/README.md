@@ -159,10 +159,10 @@ git branch --set-upstream-to=forked/master
 ### Local Testing
 [heading__local_testing]:
   #local-testing
-  "&#x1F4AF; After initial setup, run `npm test` prior to public commits"
+  "&#x1F4AF; After initial setup, please test prior to public commits"
 
 
-Local testing requires Jekyll via Bundler, for now see their documentation for how to install dependencies. After which issueing the following _should_ build site files...
+Local testing requires Jekyll via Bundler, for now see their documentation for how to install dependencies. After which issuing the following _should_ build site files...
 
 
 ```Bash
