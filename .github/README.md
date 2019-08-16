@@ -92,7 +92,7 @@ Update/upgrade submodules via
 
 ### Utilize Twitter Timeline
 [heading__utilize]:
-  #Utilize-twitter-timeline
+  #utilize-twitter-timeline
   "&#x1F578; How to make use of this submodule within another project"
 
 
@@ -147,7 +147,7 @@ twitter-timeline:
 
 ```Bash
 git add .gitmodules
-git add _includes/content-filters/twitter-timeline
+git add _includes/twitter-timeline
 
 
 ## Add any changed files too
