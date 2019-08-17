@@ -10,6 +10,7 @@ twitter-timeline:
   collection: 539487832448843776
   chrome: nofooter noscrollbar noborders transparent
   tweet_limit: 3
+  width: 800
   inject_js: true
 ---
 
@@ -26,6 +27,7 @@ twitter-timeline:
   collection: 539487832448843776
   chrome: nofooter noscrollbar noborders transparent
   tweet_limit: 3
+  width: 800
   inject_js: true
 ---
 ```
@@ -37,7 +39,7 @@ twitter-timeline:
 ```HTML
 <a class="twitter-timeline"
    href="https://twitter.com/TwitterDev/timelines/539487832448843776"
-   data-width="auto"
+   data-width="800"
    data-height="600"
    data-chrome="nofooter noscrollbar noborders transparent"
    data-tweet-limit="3">National Park Tweets</a>
